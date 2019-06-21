@@ -106,7 +106,7 @@ namespace ShareX
                     System.Diagnostics.Process process = new System.Diagnostics.Process();
                     System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                     startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                    startInfo.FileName = "C:\\Program Files\\ShareX\\sharex.exe";
+                    startInfo.FileName = Globals.xpath;
                     startInfo.Arguments = "-" + settings.Type;
                     process.StartInfo = startInfo;
                     process.Start();
