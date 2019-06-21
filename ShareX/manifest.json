@@ -1,0 +1,68 @@
+{
+  "Actions": [
+    {
+      "Icon": "Images/screenshot/ico",
+      "Name": "Screenshot",
+      "States": [
+        {
+          "Image": "Images/screenshot/bg",
+          "TitleAlignment": "bottom",
+          "FontSize": "16"
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "Tooltip": "Take a screenshot with ShareX",
+      "UUID": "com.reedhaffner.screenshot",
+      "PropertyInspectorPath": "PropertyInspector/ShareX/Screenshot.html"
+    },
+	{
+      "Icon": "Images/screenrecord/ico",
+      "Name": "Screen Record",
+      "States": [
+        {
+          "Image": "Images/screenrecord/bg",
+          "TitleAlignment": "bottom",
+          "FontSize": "16"
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "Tooltip": "Record your screen with ShareX",
+      "UUID": "com.reedhaffner.screenrecord",
+      "PropertyInspectorPath": "PropertyInspector/ShareX/ScreenRecord.html"
+    },
+	{
+      "Icon": "Images/workflow/ico",
+      "Name": "Workflow",
+      "States": [
+        {
+          "Image": "Images/workflow/bg",
+          "TitleAlignment": "bottom",
+          "FontSize": "16"
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "Tooltip": "Use a custom ShareX Workflow",
+      "UUID": "com.reedhaffner.workflow",
+      "PropertyInspectorPath": "PropertyInspector/ShareX/Workflow.html"
+    }
+  ],
+  "Author": "Reed Haffner",
+  "Description": "ShareX integration with the Stream Deck!",
+  "Name": "ShareX",
+  "Icon": "Images/pluginIcon",
+  "URL": "https://reedhaffner.com/",
+  "Version": "1.0",
+  "CodePath": "com.reedhaffner.ShareX",
+  "Category": "ShareX",
+  "CategoryIcon": "Images/categoryIcon",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}

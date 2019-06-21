@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui,viewport-fit=cover">
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-status-bar-style content=black>
+    <title>ShareX Screen Record</title>
+    <link rel="stylesheet" href="../sdpi.css">
+</head>
+<body>
+    <div class="sdpi-wrapper">
+		<div class="sdpi-item" id="select_single">
+			<div class="sdpi-item-label">Screen Record</div>
+			<select class="sdpi-item-value select sdProperty" id="type" oninput="setSettings()">
+			   <optgroup label="Video">
+				   <option value="ScreenRecorder">Selection</option>
+				   <option value="ScreenRecorderActiveWindow">Current Window</option>
+			   </optgroup>
+			   <optgroup label="GIF">
+				   <option value="ScreenRecorderGIF">Selection</option>
+				   <option value="ScreenRecorderGIFActiveWindow">Current Window</option>
+			   </optgroup>
+			</select>
+		</div>
+        <script src="../sdtools.common.js"></script>
+</body>
+</html>
