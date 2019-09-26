@@ -34,8 +34,6 @@ namespace ShareX
         // global int
         public static string xpath;
 
-        public static bool missingx { get; internal set; }
-
         public static string FindShareX()
         {
             foreach (var p in Process.GetProcesses())
@@ -62,35 +60,31 @@ namespace ShareX
             if (File.Exists("C:\\Program Files\\ShareX\\sharex.exe"))
             {
                 Globals.xpath = "C:\\Program Files\\ShareX\\sharex.exe";
-                Globals.missingx = false;
             }
             else if (File.Exists("C:\\Program Files (x86)\\ShareX\\sharex.exe"))
             {
                 Globals.xpath = "C:\\Program Files (x86)\\ShareX\\sharex.exe";
-                Globals.missingx = false;
             }
             else if (File.Exists("C:\\Program Files (x86)\\Steam\\steamapps\\common\\ShareX\\sharex.exe"))
             {
                 Globals.xpath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\ShareX\\sharex.exe";
-                Globals.missingx = false;
             }
             // Checks PATH to see if ShareX exists
             else if (File.Exists("sharex"))
             {
                 Globals.xpath = "sharex";
-                Globals.missingx = false;
             }
             // Checks currently running process for ShareX
             else if (Globals.FindShareX() != "")
             {
                 Globals.xpath = Globals.FindShareX();
-                Globals.missingx = false;
             }
             // Alert user that ShareX was unable to be found.
             else
             {
-                Globals.missingx = true;
+                MessageBox.Show("Unable to find ShareX. Please try running ShareX first, then starting StreamDeck.", "Error in ShareX4StreamDeck", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
             SDWrapper.Run(args);
         }
     }
