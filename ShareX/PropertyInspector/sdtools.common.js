@@ -1,4 +1,5 @@
-﻿var websocket = null,
+﻿// sdtools.common.js v1.0
+var websocket = null,
     uuid = null,
     registerEventName = null,
     actionInfo = {},
@@ -9,15 +10,20 @@
 function connectElgatoStreamDeckSocket(inPort, inUUID, inRegisterEvent, inInfo, inActionInfo) {
     uuid = inUUID;
     registerEventName = inRegisterEvent;
-    console.log(uuid, inActionInfo);
+    console.log(inUUID, inActionInfo);
     actionInfo = JSON.parse(inActionInfo); // cache the info
     inInfo = JSON.parse(inInfo);
-    websocket = new WebSocket('ws://localhost:' + inPort);
+    websocket = new WebSocket('ws://127.0.0.1:' + inPort);
 
     addDynamicStyles(inInfo.colors);
 
     websocket.onopen = websocketOnOpen;
     websocket.onmessage = websocketOnMessage;
+
+    // Allow others to get notified that the websocket is created
+    var event = new Event('websocketCreate');
+    document.dispatchEvent(event);
+
     loadConfiguration(actionInfo.payload.settings);
 }
 
@@ -59,7 +65,27 @@ function loadConfiguration(payload) {
                 elem.checked = payload[key];
             }
             else if (elem.classList.contains("sdFile")) { // File
+                var elemFile = document.getElementById(elem.id + "Filename");
+                elemFile.innerText = payload[key];
+                if (!elemFile.innerText) {
+                    elemFile.innerText = "No file...";
+                }
+            }
+            else if (elem.classList.contains("sdList")) { // Dynamic dropdown
+                var textProperty = elem.getAttribute("sdListTextProperty");
+                var valueProperty = elem.getAttribute("sdListValueProperty");
+                var valueField = elem.getAttribute("sdValueField");
 
+                var items = payload[key];
+                elem.options.length = 0;
+
+                for (var idx = 0; idx < items.length; idx++) {
+                    var opt = document.createElement('option');
+                    opt.value = items[idx][valueProperty];
+                    opt.text = items[idx][textProperty];
+                    elem.appendChild(opt);
+                }
+                elem.value = payload[valueField];
             }
             else { // Normal value
                 elem.value = payload[key];
@@ -82,7 +108,20 @@ function setSettings() {
             payload[key] = elem.checked;
         }
         else if (elem.classList.contains("sdFile")) { // File
-
+            var elemFile = document.getElementById(elem.id + "Filename");
+            payload[key] = elem.value;
+            if (!elem.value) {
+                // Fetch innerText if file is empty (happens when we lose and regain focus to this key)
+                payload[key] = elemFile.innerText;
+            }
+            else {
+                // Set value on initial file selection
+                elemFile.innerText = elem.value;
+            }
+        }
+        else if (elem.classList.contains("sdList")) { // Dynamic dropdown
+            var valueField = elem.getAttribute("sdValueField");
+            payload[valueField] = elem.value;
         }
         else { // Normal value
             payload[key] = elem.value;
@@ -100,10 +139,25 @@ function setSettingsToPlugin(payload) {
             'payload': payload
         };
         websocket.send(JSON.stringify(json));
+        var event = new Event('settingsUpdated');
+        document.dispatchEvent(event);
     }
 }
 
-// our method to pass values to the plugin
+// Sends an entire payload to the sendToPlugin method
+function sendPayloadToPlugin(payload) {
+    if (websocket && (websocket.readyState === 1)) {
+        const json = {
+            'action': actionInfo['action'],
+            'event': 'sendToPlugin',
+            'context': uuid,
+            'payload': payload
+        };
+        websocket.send(JSON.stringify(json));
+    }
+}
+
+// Sends one value to the sendToPlugin method
 function sendValueToPlugin(value, param) {
     if (websocket && (websocket.readyState === 1)) {
         const json = {
@@ -123,7 +177,7 @@ function openWebsite() {
         const json = {
             'event': 'openUrl',
             'payload': {
-                'url': 'https://BarRaider.github.io'
+                'url': 'https://github.com/reedhaffner/ShareX4StreamDeck'
             }
         };
         websocket.send(JSON.stringify(json));
