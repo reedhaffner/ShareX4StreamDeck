@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="../sdpi.css">
 </head>
 <body>
-    <div class="sdpi-wrapper">
+	<div class="sdpi-wrapper missingx hidden">
+		<details class="message info">
+			<summary>ShareX could not be found. Please, close StreamDeck, launch ShareX, reopen StreamDeck, then recreate this action. If you have any problems, please create an issue on <span class="linkspan" onclick="openWebsite()">Github</span>.</summary>
+		</details>
+	</div>
+    <div class="sdpi-wrapper foundx">
 		<div class="sdpi-item" id="select_single">
 			<div class="sdpi-item-label">Screenshot</div>
 			<select class="sdpi-item-value select sdProperty" id="type" oninput="setSettings()">
@@ -30,5 +35,15 @@
 			</select>
 		</div>
         <script src="../sdtools.common.js"></script>
+			<script>
+	
+	document.addEventListener("websocketCreate", function(event) {
+		if	(actionInfo.payload.settings["missingx"]) {
+			document.getElementsByClassName("missingx")[0].classList.remove("hidden");
+			document.getElementsByClassName("foundx")[0].classList.add("hidden");
+		}
+	});
+
+	</script>
 </body>
 </html>

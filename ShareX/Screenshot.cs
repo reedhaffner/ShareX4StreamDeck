@@ -20,13 +20,16 @@ namespace ShareX
             public static PluginSettings CreateDefaultSettings()
             {
                 PluginSettings instance = new PluginSettings();
-                instance.Type = String.Empty; ;
+                instance.Type = "ActiveWindow";
+                instance.MissingX = Globals.missingx;
 
                 return instance;
             }
 
             [JsonProperty(PropertyName = "type")]
             public string Type { get; set; }
+            [JsonProperty(PropertyName = "missingx")]
+            public bool MissingX { get; set; }
         }
 
         #region Private members
@@ -45,11 +48,14 @@ namespace ShareX
             if (payload.Settings == null || payload.Settings.Count == 0)
             {
                 this.settings = PluginSettings.CreateDefaultSettings();
-                Connection.SetSettingsAsync(JObject.FromObject(settings));
+                JObject settingsobject = JObject.FromObject(settings);
+                Connection.SetSettingsAsync(settingsobject);
             }
             else
             {
-                this.settings = payload.Settings.ToObject<PluginSettings>();
+                JObject settingsobject = payload.Settings;
+                if (Globals.missingx)
+                this.settings = settingsobject.ToObject<PluginSettings>();
             }
         }
 
@@ -70,6 +76,14 @@ namespace ShareX
 
         public override void OnTick()
         {
+            if (Globals.missingx)
+            {
+                settings.MissingX = true;
+            }
+            else
+            {
+                settings.MissingX = false;
+            }
         }
 
         public override void Dispose()
@@ -96,22 +110,14 @@ namespace ShareX
         {
             await Task.Run(() =>
             {
-                if (settings.Type == String.Empty)
-                {
-                    Connection.ShowAlert();
-                    MessageBox.Show("A Screenshot type is required! Please check the Stream Deck application.");
-                }
-                else
-                {
-                    System.Diagnostics.Process process = new System.Diagnostics.Process();
-                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                    startInfo.FileName = Globals.xpath;
-                    startInfo.Arguments = "-" + settings.Type;
-                    process.StartInfo = startInfo;
-                    process.Start();
-                    Connection.ShowOk();
-                }
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = Globals.xpath;
+                startInfo.Arguments = "-" + settings.Type;
+                process.StartInfo = startInfo;
+                process.Start();
+                Connection.ShowOk();
             });
         }
         #endregion
