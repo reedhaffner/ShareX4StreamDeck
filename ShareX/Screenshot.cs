@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Forms;
 using WindowsInput;
 
 namespace ShareX
@@ -56,6 +56,12 @@ namespace ShareX
         public override void KeyPressed(KeyPayload payload)
         {
             Logger.Instance.LogMessage(TracingLevel.INFO, "Key Pressed");
+
+            if (Globals.xpath == null)
+            {
+                MessageBox.Show("Unable to find ShareX. Please try running ShareX first, then starting StreamDeck.", "Error in ShareX4StreamDeck", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (inputRunning)
             {
                 return;

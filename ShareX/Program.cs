@@ -82,9 +82,8 @@ namespace ShareX
             // Alert user that ShareX was unable to be found.
             else
             {
-                MessageBox.Show("Unable to find ShareX. Please try running ShareX first, then starting StreamDeck.", "Error in ShareX4StreamDeck", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Globals.xpath = null;
             }
-
             SDWrapper.Run(args);
         }
     }

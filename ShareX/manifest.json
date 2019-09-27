@@ -51,7 +51,7 @@
   "Name": "ShareX",
   "Icon": "Images/pluginIcon",
   "URL": "https://reedhaffner.com/",
-  "Version": "1.3",
+  "Version": "1.3.1",
   "CodePath": "com.reedhaffner.sharex",
   "Category": "ShareX",
   "CategoryIcon": "Images/categoryIcon",
