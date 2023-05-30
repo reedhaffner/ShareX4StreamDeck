@@ -55,6 +55,11 @@ namespace ShareX
         {
             Logger.Instance.LogMessage(TracingLevel.INFO, "Key Pressed");
 
+            if ( Globals.xpath == null && Globals.FindShareX() != "" ) // retry if process is running. Happens if StreamDeck was started after ShareX
+            {
+                Globals.xpath = Globals.FindShareX();
+            }
+
             if (Globals.xpath == null)
             {
                 MessageBox.Show("Unable to find ShareX. Please try running ShareX first, then starting StreamDeck.", "Error in ShareX4StreamDeck", MessageBoxButtons.OK, MessageBoxIcon.Error);
