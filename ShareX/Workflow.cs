@@ -13,14 +13,14 @@ using WindowsInput;
 namespace ShareX
 {
     [PluginActionId("com.reedhaffner.workflow")]
-    public class Workflow : PluginBase
+    public class Workflow : KeypadBase
     {
         private class PluginSettings
         {
             public static PluginSettings CreateDefaultSettings()
             {
                 PluginSettings instance = new PluginSettings();
-                instance.WorkflowName = String.Empty; ;
+                instance.WorkflowName = string.Empty; ;
 
                 return instance;
             }
@@ -102,7 +102,7 @@ namespace ShareX
         {
             await Task.Run(() =>
             {
-                if (settings.WorkflowName == String.Empty)
+                if (settings.WorkflowName == string.Empty)
                 {
                     Connection.ShowAlert();
                     MessageBox.Show("You did not name a workflow!");

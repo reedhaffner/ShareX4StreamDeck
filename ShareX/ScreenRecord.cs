@@ -13,14 +13,14 @@ using WindowsInput;
 namespace ShareX
 {
     [PluginActionId("com.reedhaffner.screenrecord")]
-    public class ScreenRecord : PluginBase
+    public class ScreenRecord : KeypadBase
     {
         private class PluginSettings
         {
             public static PluginSettings CreateDefaultSettings()
             {
                 PluginSettings instance = new PluginSettings();
-                instance.Type = String.Empty; ;
+                instance.Type = string.Empty; ;
 
                 return instance;
             }
@@ -103,7 +103,7 @@ namespace ShareX
         {
             await Task.Run(() =>
             {
-                if (settings.Type == String.Empty)
+                if (settings.Type == string.Empty)
                 {
                     Connection.ShowAlert();
                     MessageBox.Show("A ScreenRecord type is required! Please check the Stream Deck application.");
