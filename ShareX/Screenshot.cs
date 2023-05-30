@@ -31,8 +31,6 @@ namespace ShareX
 
         #region Private members
 
-        private const int RESET_COUNTER_KEYPRESS_LENGTH = 1;
-
         private bool inputRunning = false;
         private PluginSettings settings;
 
