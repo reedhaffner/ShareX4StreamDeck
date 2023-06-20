@@ -13,14 +13,14 @@ using WindowsInput;
 namespace ShareX
 {
     [PluginActionId("com.reedhaffner.screenshot")]
-    public class Screenshot : PluginBase
+    public class Screenshot : KeypadBase
     {
         private class PluginSettings
         {
             public static PluginSettings CreateDefaultSettings()
             {
                 PluginSettings instance = new PluginSettings();
-                instance.Type = String.Empty; ;
+                instance.Type = string.Empty; ;
 
                 return instance;
             }
@@ -30,8 +30,6 @@ namespace ShareX
         }
 
         #region Private members
-
-        private const int RESET_COUNTER_KEYPRESS_LENGTH = 1;
 
         private bool inputRunning = false;
         private PluginSettings settings;
@@ -56,6 +54,11 @@ namespace ShareX
         public override void KeyPressed(KeyPayload payload)
         {
             Logger.Instance.LogMessage(TracingLevel.INFO, "Key Pressed");
+
+            if ( Globals.xpath == null && Globals.FindShareX() != "" ) // retry if process is running. Happens if StreamDeck was started after ShareX
+            {
+                Globals.xpath = Globals.FindShareX();
+            }
 
             if (Globals.xpath == null)
             {
@@ -102,7 +105,7 @@ namespace ShareX
         {
             await Task.Run(() =>
             {
-                if (settings.Type == String.Empty)
+                if (settings.Type == string.Empty)
                 {
                     Connection.ShowAlert();
                     MessageBox.Show("A Screenshot type is required! Please check the Stream Deck application.");

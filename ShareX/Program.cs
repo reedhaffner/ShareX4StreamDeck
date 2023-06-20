@@ -20,7 +20,7 @@ namespace ShareX
 
         public static string GetMainModuleFileName(this Process process, int buffer = 1024)
         {
-            var fileNameBuilder = new StringBuilder(buffer);
+            StringBuilder fileNameBuilder = new StringBuilder(buffer);
             uint bufferLength = (uint)fileNameBuilder.Capacity + 1;
             return QueryFullProcessImageName(process.Handle, 0, fileNameBuilder, ref bufferLength) ?
                 fileNameBuilder.ToString() :
@@ -36,11 +36,11 @@ namespace ShareX
 
         public static string FindShareX()
         {
-            foreach (var p in Process.GetProcesses())
+            foreach (Process p in Process.GetProcesses())
             {
                 if (p.ProcessName == "ShareX")
                 {
-                    return(p.GetMainModuleFileName());
+                    return p.GetMainModuleFileName();
                 }
             }
             return "";
